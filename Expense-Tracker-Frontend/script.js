@@ -1,3 +1,4 @@
+
 const balance = document.getElementById("balance");
 const income = document.getElementById("income");
 const expense = document.getElementById("expense");
@@ -7,7 +8,11 @@ const amount = document.getElementById("amount");
 const logoutBtn = document.getElementById("logoutBtn");
 const addTransaction = document.getElementById("add-transaction");
 
+// Deployed Backend URL
+const API_BASE_URL = "https://expense-tracker-backend-romo.onrender.com";
+
 const username = localStorage.getItem("user");
+
 if (!username) {
   window.location.href = "login.html";
 }
@@ -21,11 +26,16 @@ let transactions = [];
 
 function updateValues() {
   const amounts = transactions.map((t) => t.amount);
-  const total = amounts.reduce((acc, item) => acc + item, 0).toFixed(2);
+
+  const total = amounts
+    .reduce((acc, item) => acc + item, 0)
+    .toFixed(2);
+
   const incomeTotal = amounts
     .filter((a) => a > 0)
     .reduce((acc, item) => acc + item, 0)
     .toFixed(2);
+
   const expenseTotal = (
     amounts.filter((a) => a < 0).reduce((acc, item) => acc + item, 0) * -1
   ).toFixed(2);
@@ -37,6 +47,7 @@ function updateValues() {
 
 function addTransactionDOM(transaction) {
   const tr = document.createElement("tr");
+
   tr.innerHTML = `
     <td>${transaction.date}</td>
     <td>${transaction.text}</td>
@@ -45,11 +56,12 @@ function addTransactionDOM(transaction) {
     }">$${transaction.amount.toFixed(2)}</td>
     <td><button onclick="removeTransaction(${transaction.id})">X</button></td>
   `;
+
   list.appendChild(tr);
 }
 
 function removeTransaction(id) {
-  fetch(`http://localhost:8080/ExpTrack/transactions/${username}/${id}`, {
+  fetch(`${API_BASE_URL}/ExpTrack/transactions/${username}/${id}`, {
     method: "DELETE",
   })
     .then(() => {
@@ -80,7 +92,7 @@ addTransaction.addEventListener("click", () => {
     date: new Date().toISOString().split("T")[0],
   };
 
-  fetch(`http://localhost:8080/ExpTrack/transactions/${username}`, {
+  fetch(`${API_BASE_URL}/ExpTrack/transactions/${username}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -98,7 +110,7 @@ addTransaction.addEventListener("click", () => {
 });
 
 function init() {
-  fetch(`http://localhost:8080/ExpTrack/transactions/${username}`)
+  fetch(`${API_BASE_URL}/ExpTrack/transactions/${username}`)
     .then((res) => res.json())
     .then((data) => {
       transactions = data;
