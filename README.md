@@ -245,16 +245,17 @@ The application is deployed using the following services:
 
 The deployed backend uses the following environment variables:
 
-| Variable                        | Purpose                                  |
-| ------------------------------- | ---------------------------------------- |
-| `SPRING_DATASOURCE_URL`         | Cloud database JDBC URL                  |
-| `SPRING_DATASOURCE_USERNAME`    | Database username                        |
-| `SPRING_DATASOURCE_PASSWORD`    | Database password                        |
-| `SPRING_JPA_HIBERNATE_DDL_AUTO` | Hibernate table management configuration |
+| Variable                        | Purpose                                           |
+| ------------------------------- | ------------------------------------------------- |
+| `PORT`                          | Port on which the Render web service runs         |
+| `SPRING_DATASOURCE_URL`         | TiDB Cloud database JDBC URL                      |
+| `SPRING_DATASOURCE_USERNAME`    | Database username                                 |
+| `SPRING_DATASOURCE_PASSWORD`    | Database password                                 |
+| `SPRING_JPA_HIBERNATE_DDL_AUTO` | Hibernate table creation and update configuration |
 
-Never upload database passwords or other secrets to GitHub.
+These variables are configured through the Render dashboard. Database credentials and other sensitive configuration values are not committed to GitHub.
 
----
+**Note:** `PORT` is automatically provided by Render.
 
 ## 👩‍💻 Author
 
